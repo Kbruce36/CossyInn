@@ -1,0 +1,12 @@
+# The Cosy Inn Kiwenda
+# https://www.cosyinnkiwenda.com
+#
+# If you change the domain, change the Sitemap line below to match.
+
+User-agent: *
+Allow: /
+
+# Nothing here is private, but there is nothing useful for a crawler either.
+Disallow: /includes/
+
+Sitemap: https://www.cosyinnkiwenda.com/sitemap.xml

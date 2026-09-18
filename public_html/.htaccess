@@ -1,0 +1,121 @@
+# =============================================================================
+#  The Cosy Inn Kiwenda  --  Apache configuration
+#
+#  Jubilee, like most cPanel hosts, runs Apache with mod_rewrite, mod_deflate
+#  and mod_expires available. Every block below is wrapped in <IfModule> so
+#  that if a module happens to be missing the site still serves rather than
+#  throwing a 500.
+# =============================================================================
+
+# ---------------------------------------------------------------- errors ---
+ErrorDocument 404 /404.php
+
+# --------------------------------------------------------------- rewrite ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- Force HTTPS -----------------------------------------------------------
+  # Comment this out until the SSL certificate is actually issued, otherwise
+  # you will redirect visitors into a browser warning.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # --- Canonical host --------------------------------------------------------
+  # Pick ONE of these two and delete the other. Serving the site on both the
+  # www and the bare domain splits your ranking signal between two URLs.
+  #
+  # (a) force www  -- currently active, matches SITE_URL in includes/config.php
+  RewriteCond %{HTTP_HOST} ^cosyinnkiwenda\.com$ [NC]
+  RewriteRule ^(.*)$ https://www.cosyinnkiwenda.com/$1 [R=301,L]
+  #
+  # (b) force bare domain -- uncomment these two lines and comment out (a)
+  # RewriteCond %{HTTP_HOST} ^www\.cosyinnkiwenda\.com$ [NC]
+  # RewriteRule ^(.*)$ https://cosyinnkiwenda.com/$1 [R=301,L]
+
+  # --- Strip index.php from the root ----------------------------------------
+  RewriteCond %{THE_REQUEST} \s/index\.php[\s?] [NC]
+  RewriteRule ^ / [R=301,L]
+
+  # --- Redirect /page.php to the clean /page --------------------------------
+  # One canonical URL per page, so the .php version never gets indexed too.
+  RewriteCond %{THE_REQUEST} \s/([^.]+)\.php[\s?] [NC]
+  RewriteRule ^ /%1 [R=301,L]
+
+  # --- Drop trailing slashes -------------------------------------------------
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # --- Generated sitemap -----------------------------------------------------
+  RewriteRule ^sitemap\.xml$ /sitemap.php [L]
+
+  # --- Clean URLs to real files ---------------------------------------------
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([^.]+)$ $1.php [L]
+</IfModule>
+
+# ----------------------------------------------------------- protect src ---
+# includes/ holds configuration and content, never meant to be fetched directly.
+<IfModule mod_rewrite.c>
+  RewriteRule ^includes/ - [F,L]
+</IfModule>
+
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+# ------------------------------------------------------------ compression --
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/ld+json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/json image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------- caching --
+# Images, fonts, CSS and JS are all versioned by filename or change rarely.
+# A long cache here is the single biggest repeat-visit speed win.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg        "access plus 1 year"
+  ExpiresByType image/png         "access plus 1 year"
+  ExpiresByType image/webp        "access plus 1 year"
+  ExpiresByType image/svg+xml     "access plus 1 year"
+  ExpiresByType image/x-icon      "access plus 1 year"
+  ExpiresByType font/woff2        "access plus 1 year"
+  ExpiresByType text/css          "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/html         "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg|ico|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # Security headers. Mirrors what includes/bootstrap.php sets, so static
+  # files get them too.
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# ---------------------------------------------------------------- mime -----
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+# ------------------------------------------------------------- listings ----
+Options -Indexes
