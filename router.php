@@ -16,6 +16,12 @@ if ($clean === '') {
     $clean = 'index';
 }
 
+// Apache serves the generated sitemap at /sitemap.xml, and so does the static
+// build. Without this the dev server was the only place that 404'd on it.
+if ($clean === 'sitemap.xml') {
+    $clean = 'sitemap';
+}
+
 $candidate = __DIR__ . '/public_html/' . $clean . '.php';
 if (file_exists($candidate)) {
     $_SERVER['SCRIPT_FILENAME'] = $candidate;

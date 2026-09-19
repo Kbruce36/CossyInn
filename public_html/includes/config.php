@@ -16,7 +16,12 @@ declare(strict_types=1);
 // PLACEHOLDER: set this to the domain you buy, with no trailing slash.
 // Every canonical URL, sitemap entry, Open Graph tag and JSON-LD @id is built
 // from this one value, so changing it here updates the whole site.
-define('SITE_URL', 'https://www.cosyinnkiwenda.com');
+//
+// A SITE_URL environment variable overrides it. That is for the static build
+// (tools/build_static.php): the same source has to produce a build for a
+// Netlify preview URL and a build for the real domain without this file being
+// edited in between.
+define('SITE_URL', rtrim(getenv('SITE_URL') ?: 'https://www.cosyinnkiwenda.com', '/'));
 
 // --- Identity ---------------------------------------------------------------
 define('SITE_NAME',      'The Cosy Inn Kiwenda');

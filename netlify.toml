@@ -1,0 +1,64 @@
+# =============================================================================
+#  Netlify configuration
+#
+#  Netlify serves files; it never executes PHP. The build command below runs
+#  PHP at DEPLOY time instead, rendering every page once into dist/, which is
+#  what actually gets served. The PHP source stays the source of truth, so
+#  includes/content.php is still the one place rooms, menus and FAQs are
+#  edited, and the same repo still deploys to Jubilee's Apache unchanged.
+#
+#  Redirects are not here. tools/build_static.php generates dist/_redirects
+#  from its own page list, so the clean URLs cannot drift out of step with the
+#  pages that exist.
+# =============================================================================
+
+[build]
+  command = "php tools/build_static.php"
+  publish = "dist"
+
+[build.environment]
+  # Netlify's build image ships 7.4 through 8.3. The site uses nothing newer.
+  PHP_VERSION = "8.3"
+
+  # The domain this build is for. Canonical tags, Open Graph URLs, JSON-LD,
+  # the sitemap and robots.txt are all built from it.
+  #
+  # Left at the real domain on purpose: while the site is previewed on a
+  # netlify.app URL, the canonical tags point at where it is going to live, so
+  # the preview does not get indexed as a competing copy of the site. Set this
+  # to the netlify.app URL in Site settings if you want the preview itself to
+  # be the canonical, and to the real domain once DNS points here.
+  SITE_URL = "https://www.cosyinnkiwenda.com"
+
+# ------------------------------------------------------------------ headers --
+# Mirrors the security headers includes/bootstrap.php sets on the PHP host, so
+# the two deployments behave the same.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Fonts and photos are the heavy part of every page and they do not change
+# between deploys, so they are cached hard. Matches the .htaccess rules.
+#
+# The catch: filenames carry no content hash, so replacing a photo while
+# keeping its name leaves returning visitors on the old one until the year is
+# up. Give a replacement photo a new name, or drop the max-age here.
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# CSS and JS deliberately diverge from the .htaccess month-long cache. They
+# carry no cache-busting either, and a stylesheet tweak that takes a month to
+# reach repeat visitors is worse than the few milliseconds a revalidation
+# costs against Netlify's CDN. Leaving them unset uses Netlify's ETag
+# revalidation, which is always fresh.

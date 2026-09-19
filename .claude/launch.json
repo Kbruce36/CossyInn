@@ -6,6 +6,12 @@
       "runtimeExecutable": "C:/Users/HP/AppData/Local/Microsoft/WinGet/Packages/PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe/php.exe",
       "runtimeArgs": ["-S", "localhost:8484", "-t", "public_html", "router.php"],
       "port": 8484
+    },
+    {
+      "name": "cosy-inn-static",
+      "runtimeExecutable": "C:/Users/HP/AppData/Local/Microsoft/WinGet/Packages/PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe/php.exe",
+      "runtimeArgs": ["-S", "localhost:8485", "-t", "dist"],
+      "port": 8485
     }
   ]
 }
