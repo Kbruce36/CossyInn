@@ -2,7 +2,11 @@
 declare(strict_types=1);
 require __DIR__ . '/includes/bootstrap.php';
 
-http_response_code(404);
+// The static build serves this as a file and lets the host set the status, so
+// there is no response code to set when rendering under the CLI.
+if (PHP_SAPI !== 'cli') {
+    http_response_code(404);
+}
 
 $page = [
     'title'       => 'Page Not Found',

@@ -9,9 +9,14 @@
  */
 
 declare(strict_types=1);
-require __DIR__ . '/includes/config.php';
+// require_once, and via the same path every other page uses. This file used to
+// require config.php directly with require, so rendering it after another page
+// in one process redefined every constant.
+require_once __DIR__ . '/includes/config.php';
 
-header('Content-Type: application/xml; charset=utf-8');
+if (PHP_SAPI !== 'cli') {
+    header('Content-Type: application/xml; charset=utf-8');
+}
 
 /** path => [file, changefreq, priority] */
 $urls = [

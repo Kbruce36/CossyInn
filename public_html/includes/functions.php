@@ -180,6 +180,61 @@ function icon(string $name, string $class = 'icon'): string
          . $body . '</svg>';
 }
 
+/**
+ * One attraction card.
+ *
+ * Used by the attractions page and by the homepage teaser, which differ only
+ * in heading level and whether the distance chip is shown. It lived in both
+ * files as copied markup until the two drifted apart once too often.
+ *
+ * @param array $a    one entry from $ATTRACTIONS
+ * @param array $opts heading ('h2' or 'h3'), delay (ms), distance (bool)
+ */
+function attraction_card(array $a, array $opts = []): string
+{
+    $heading  = $opts['heading'] ?? 'h2';
+    $delay    = (int) ($opts['delay'] ?? 0);
+    $showDist = $opts['distance'] ?? true;
+
+    $img = picture($a['img'], $a['alt'], [
+        'sizes' => '(min-width:1000px) 380px, (min-width:720px) 50vw, 100vw',
+    ]);
+
+    $foot = '';
+    if ($showDist) {
+        $foot = '              <div class="card__foot">' . "\n"
+              . '                <span class="chip">' . icon('car', 'icon icon--sm')
+              . ' ' . e($a['dist']) . '</span>' . "\n"
+              . '              </div>' . "\n";
+    }
+
+    // Indentation and the trailing newline are baked in so the call site can be
+    // a one-line `foreach ... echo`. PHP swallows the newline that follows a
+    // closing tag, so emitting these from a multi-line template block instead
+    // would run every card onto a single line.
+    return sprintf(
+        '          <article class="card reveal" data-reveal-delay="%d">' . "\n"
+        . '            <div class="card__media">' . "\n"
+        . '              %s' . "\n"
+        . '              <span class="card__badge">%s</span>' . "\n"
+        . '            </div>' . "\n"
+        . '            <div class="card__body">' . "\n"
+        . '              <%s class="card__title">%s</%s>' . "\n"
+        . '              <p class="card__text">%s</p>' . "\n"
+        . '%s'
+        . '            </div>' . "\n"
+        . '          </article>' . "\n",
+        $delay,
+        $img,
+        e($a['time']),
+        $heading,
+        e($a['name']),
+        $heading,
+        e($a['blurb']),
+        $foot
+    );
+}
+
 /** Social profiles that have a real URL set. '#' entries are placeholders. */
 function active_socials(array $socials): array
 {

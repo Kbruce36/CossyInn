@@ -1,39 +1,15 @@
 {
-  "attraction-ssezibwa-falls": {
-    "title": "Ssezibwa Falls1.jpg",
-    "author": "Dixon099",
-    "license": "CC BY-SA 4.0",
-    "source": "https://commons.wikimedia.org/wiki/File:Ssezibwa_Falls1.jpg"
-  },
   "attraction-namugongo": {
     "title": "Namugongo Martyrs Shrine exterior view.jpg",
     "author": "Isabelle Prondzynski",
     "license": "CC BY 2.0",
     "source": "https://commons.wikimedia.org/wiki/File:Namugongo_Martyrs_Shrine_exterior_view.jpg"
   },
-  "attraction-lake-victoria": {
-    "title": "Shores of Lake Victoria at Ssese Islands.jpg",
-    "author": "Jiame Josh",
-    "license": "CC BY-SA 4.0",
-    "source": "https://commons.wikimedia.org/wiki/File:Shores_of_Lake_Victoria_at_Ssese_Islands.jpg"
-  },
   "attraction-kampala": {
     "title": "Kampala skyline.jpg",
     "author": "Todd Huffman from Phoenix, AZ",
     "license": "CC BY 2.0",
     "source": "https://commons.wikimedia.org/wiki/File:Kampala_skyline.jpg"
-  },
-  "attraction-entebbe-gardens": {
-    "title": "Entebbe Botanical Gardens 3.jpg",
-    "author": "https://www.flickr.com/photos/31379880@N05/",
-    "license": "CC BY 2.0",
-    "source": "https://commons.wikimedia.org/wiki/File:Entebbe_Botanical_Gardens_3.jpg"
-  },
-  "attraction-mabira": {
-    "title": "A stagnant stream in Mabira Forest.jpg",
-    "author": "Stnts256",
-    "license": "CC BY-SA 4.0",
-    "source": "https://commons.wikimedia.org/wiki/File:A_stagnant_stream_in_Mabira_Forest.jpg"
   },
   "food-matoke": {
     "title": "Matoke.JPG",
@@ -58,5 +34,47 @@
     "author": "Fralian",
     "license": "CC BY-SA 4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Rolex_in_Mbarara.jpg"
+  },
+  "attraction-bahai-temple": {
+    "title": "19 Bahai Temple Kampala Hilltop View 1.jpg",
+    "author": "Alvinategyeka",
+    "license": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:19_Bahai_Temple_Kampala_Hilltop_View_1.jpg"
+  },
+  "attraction-coffee-tour": {
+    "title": "Women drying coffee.jpg",
+    "author": "PHILIP ASEDRI DRADRIO",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Women_drying_coffee.jpg"
+  },
+  "attraction-theron": {
+    "title": "High ropes course",
+    "author": "Theron Leisure Park & Residences",
+    "license": "Venue photograph",
+    "source": "https://theronleisurepark.com/"
+  },
+  "attraction-extreme-park": {
+    "title": "Go-karting",
+    "author": "Extreme Adventure Park Busika",
+    "license": "Venue photograph",
+    "source": "https://www.extremeadventures.co.ug/product/go-karting/"
+  },
+  "attraction-great-outdoors": {
+    "title": "Forest clearing",
+    "author": "Great Outdoors Uganda, Kalanamu",
+    "license": "Venue photograph",
+    "source": "https://greatoutdoorsuganda.com/"
+  },
+  "attraction-bugema": {
+    "title": "Campus building",
+    "author": "Bugema University",
+    "license": "Venue photograph",
+    "source": "https://bugemauniv.ac.ug/"
+  },
+  "attraction-namulonge-golf": {
+    "title": "On the fairway",
+    "author": "Mary Louise Simkins Memorial Golf Club",
+    "license": "Venue photograph",
+    "source": "https://longegolf.com/"
   }
 }

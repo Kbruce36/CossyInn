@@ -36,7 +36,18 @@ Book Now button on the site.
 - **There is no swimming pool on this site**, although the original mockup showed
   one. The property does not have a pool, and advertising one guarantees angry
   arrivals.
-- **Attraction distances are estimates.** Check them before launch.
+- **Attraction distances are estimates.** Check them before launch. The six
+  nearest ones are new and the easiest to get wrong, and a guest who is told
+  five minutes and drives twenty is a guest who complains at reception.
+- **Five attraction photos belong to the venues they show.** Theron Leisure
+  Park, Extreme Adventure Park, The Great Outdoors, Bugema University and
+  Namulonge Golf Club are each illustrated with a photograph taken from that
+  venue's own website, because no openly licensed photograph of any of them
+  exists. They are listed on `/credits`. Email each venue for written
+  permission, or replace them with your own photographs. A hotel sending them
+  guests is free advertising, so this is usually a formality, but get it in
+  writing. Everything else on the attractions page is either Creative Commons
+  or the inn's own.
 
 ---
 

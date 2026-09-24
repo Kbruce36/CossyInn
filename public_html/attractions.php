@@ -4,11 +4,11 @@ require __DIR__ . '/includes/bootstrap.php';
 
 $page = [
     'titleFull'   => 'Things to Do Near Kiwenda & Gayaza | The Cosy Inn',
-    'description' => 'Namugongo Shrine, Kampala, Ssezibwa Falls, Lake Victoria and Mabira '
-                   . 'Forest are all an easy drive from The Cosy Inn Kiwenda in Wakiso '
-                   . 'District.',
+    'description' => 'Ziplines at Theron, go-karts at Busiika, golf at Namulonge, the '
+                   . 'Namugongo Shrine and the Bahai Temple. Every one within 30 km of '
+                   . 'The Cosy Inn Kiwenda.',
     'path'        => '/attractions',
-    'image'       => image_url('stock/attraction-ssezibwa-falls', 1200),
+    'image'       => image_url('stock/attraction-namugongo', 1200),
     'preload'     => 'stock/attraction-namugongo',
     'breadcrumbs' => ['Home' => '/', 'Attractions' => '/attractions'],
     'schema'      => [[
@@ -51,7 +51,8 @@ require __DIR__ . '/includes/header.php';
         <h1 class="phero__title">Attractions Near Kiwenda</h1>
         <p class="phero__sub">
           Sleep somewhere quiet and still be within reach of the best of
-          central Uganda. Here is what our guests go and see.
+          central Uganda. Everything below is ordered by distance from our
+          gate, and the first few are minutes away.
         </p>
       </div>
     </div>
@@ -60,22 +61,7 @@ require __DIR__ . '/includes/header.php';
   <section class="section">
     <div class="wrap">
       <div class="grid grid--3">
-        <?php foreach ($ATTRACTIONS as $i => $a): ?>
-          <article class="card reveal" data-reveal-delay="<?= ($i % 3) * 90 ?>">
-            <div class="card__media">
-              <?= picture($a['img'], $a['alt'],
-                    ['sizes' => '(min-width:1000px) 380px, (min-width:720px) 50vw, 100vw']) ?>
-              <span class="card__badge"><?= e($a['time']) ?></span>
-            </div>
-            <div class="card__body">
-              <h2 class="card__title"><?= e($a['name']) ?></h2>
-              <p class="card__text"><?= e($a['blurb']) ?></p>
-              <div class="card__foot">
-                <span class="chip"><?= icon('car', 'icon icon--sm') ?> <?= e($a['dist']) ?></span>
-              </div>
-            </div>
-          </article>
-        <?php endforeach; ?>
+        <?php foreach ($ATTRACTIONS as $i => $a) echo attraction_card($a, ['delay' => ($i % 3) * 90]); ?>
       </div>
 
       <p class="placeholder-note" style="margin-top:2rem">
@@ -115,7 +101,7 @@ require __DIR__ . '/includes/header.php';
 
   <section class="cta">
     <div class="cta__media">
-      <?= picture('stock/attraction-ssezibwa-falls', '', ['sizes' => '100vw']) ?>
+      <?= picture('stock/attraction-bahai-temple', '', ['sizes' => '100vw']) ?>
     </div>
     <div class="wrap">
       <div class="cta__inner">

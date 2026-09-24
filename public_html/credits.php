@@ -27,7 +27,9 @@ require __DIR__ . '/includes/header.php';
       <p class="shead__sub" style="margin-bottom:2.5rem">
         Photographs of the inn itself, its rooms, restaurant, bar, gardens and
         team are our own. The images below illustrate nearby attractions and
-        some menu dishes, and are used under the licences listed.
+        some menu dishes. Those marked with a Creative Commons licence are used
+        under that licence. Those marked <em>Venue photograph</em> belong to the
+        attraction they show, and are used to point guests towards it.
       </p>
 
       <div class="card">

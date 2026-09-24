@@ -25,9 +25,8 @@
  * environment variable to point canonical URLs, the sitemap and robots.txt at
  * whatever domain is actually serving the build.
  *
- * Each page is rendered in its own PHP process. Every page requires
- * bootstrap.php, which declares constants and functions unconditionally, so
- * rendering two pages in one process is a redeclaration fatal.
+ * Every page is rendered in this one process, at global scope. See the render
+ * loop below for why both of those matter.
  */
 
 declare(strict_types=1);
@@ -63,56 +62,18 @@ const EXTRAS = [
 const VERBATIM = ['assets', 'site.webmanifest'];
 
 // ---------------------------------------------------------------------------
-// Child mode: render one page and write it to stdout.
+// Warnings are build failures.
 // ---------------------------------------------------------------------------
-if (($argv[1] ?? '') === '--render') {
-    $file = $argv[2];
-    $uri  = $argv[3];
-
-    // functions.php reads REQUEST_URI to decide which nav link is active.
-    // Without this every page would render with the homepage highlighted.
-    $_SERVER['REQUEST_URI']    = $uri;
-    $_SERVER['REQUEST_METHOD'] = 'GET';
-    $_SERVER['HTTP_HOST']      = 'localhost';
-    $_SERVER['SCRIPT_FILENAME'] = $file;
-
-    require $file;
-    exit(0);
-}
-
-// ---------------------------------------------------------------------------
-// Parent mode.
-// ---------------------------------------------------------------------------
-
-/** Render one page in a child process and return its output. */
-function render(string $file, string $uri): string
-{
-    $proc = proc_open(
-        [PHP_BINARY, __FILE__, '--render', $file, $uri],
-        [1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
-        $pipes
-    );
-    if (!is_resource($proc)) {
-        fail("could not start PHP to render $file");
-    }
-
-    $html = stream_get_contents($pipes[1]);
-    $err  = stream_get_contents($pipes[2]);
-    fclose($pipes[1]);
-    fclose($pipes[2]);
-    $code = proc_close($proc);
-
-    // A warning on stderr still produces usable HTML, but it means something
-    // is wrong with the page, so it is not swallowed.
-    if ($err !== '') {
-        fwrite(STDERR, "  ! $file wrote to stderr:\n" . rtrim($err) . "\n");
-    }
-    if ($code !== 0 || trim((string) $html) === '') {
-        fail("rendering $file failed (exit $code)");
-    }
-
-    return (string) $html;
-}
+// A notice or warning still produces usable-looking HTML, which is exactly why
+// it must not be allowed through: an undefined array key in a template is a
+// missing price or a missing link that nobody notices until a guest does.
+// Collected rather than thrown so one run reports every page that is unhappy.
+$buildWarnings = [];
+set_error_handler(static function (int $no, string $msg, string $f, int $line) use (&$buildWarnings): bool {
+    global $buildCurrent;
+    $buildWarnings[] = sprintf('%s: %s (%s:%d)', $buildCurrent ?? 'startup', $msg, basename($f), $line);
+    return true;
+});
 
 function write_file(string $path, string $contents): void
 {
@@ -183,19 +144,56 @@ remove_tree($out);
 mkdir($out, 0o777, true);
 
 // --- pages -------------------------------------------------------------------
-foreach (PAGES as $path => $file) {
+// Two things about this loop are deliberate.
+//
+// It renders at GLOBAL scope. schema.php reaches for the content arrays with
+// `global $MENU`, `global $ROOMS` and so on, so the arrays that config.php and
+// content.php create have to land in the global scope, which means the page
+// files have to be required from it too. Move this into a function and the
+// pages still render, but their structured data quietly comes out empty.
+//
+// It renders every page in THIS process, which is only safe because
+// bootstrap.php requires its four includes with require_once. Those files
+// declare constants and functions, so before that change a second page in the
+// same process was a redeclaration fatal, and this script had to fork a PHP
+// child per page to get around it.
+//
+// Loop variables are prefixed because the pages share this scope: header.php
+// and footer.php both do `foreach ($NAV as $path => $label)`, and sitemap.php
+// uses $file. A plain $path here would be clobbered mid-build.
+require_once "$src/includes/bootstrap.php";
+
+$buildJobs = [];
+foreach (PAGES as $buildPath => $buildFile) {
     // '/' is the only page that must keep its directory-index filename;
     // everything else is flat, so /rooms is served by rooms.html with no
     // trailing-slash redirect to muddy the canonical URL.
-    $name = $path === '/' ? 'index.html' : trim($path, '/') . '.html';
-    write_file("$out/$name", render("$src/$file", $path));
-    echo "  $path -> $name\n";
+    $buildJobs[$buildPath] = [$buildFile, $buildPath === '/' ? 'index.html' : trim($buildPath, '/') . '.html'];
+}
+foreach (EXTRAS as $buildPath => [$buildFile, $buildName]) {
+    $buildJobs[$buildPath] = [$buildFile, $buildName];
 }
 
-foreach (EXTRAS as $path => [$file, $name]) {
-    write_file("$out/$name", render("$src/$file", $path));
-    echo "  $path -> $name\n";
+foreach ($buildJobs as $buildPath => [$buildFile, $buildName]) {
+    // functions.php reads REQUEST_URI to decide which nav link is active.
+    // Without this every page would render with the homepage highlighted.
+    $_SERVER['REQUEST_URI']     = $buildPath;
+    $_SERVER['REQUEST_METHOD']  = 'GET';
+    $_SERVER['HTTP_HOST']       = 'localhost';
+    $_SERVER['SCRIPT_FILENAME'] = "$src/$buildFile";
+
+    $buildCurrent = $buildFile;
+    ob_start();
+    require "$src/$buildFile";
+    $buildHtml = (string) ob_get_clean();
+
+    if (trim($buildHtml) === '') {
+        fail("rendering $buildFile produced no output");
+    }
+    write_file("$out/$buildName", $buildHtml);
+    echo "  $buildPath -> $buildName\n";
 }
+$buildCurrent = null;
 
 // --- static files ------------------------------------------------------------
 foreach (VERBATIM as $item) {
@@ -246,5 +244,14 @@ $redirects[] = "# Apache served the generated sitemap from sitemap.php.";
 $redirects[] = "/sitemap.php  /sitemap.xml  301!";
 write_file("$out/_redirects", implode("\n", $redirects) . "\n");
 echo "  wrote _redirects\n";
+
+restore_error_handler();
+if ($buildWarnings !== []) {
+    fwrite(STDERR, "\nbuild_static: " . count($buildWarnings) . " warning(s) while rendering:\n");
+    foreach ($buildWarnings as $w) {
+        fwrite(STDERR, "  ! $w\n");
+    }
+    fail('refusing to publish a build that produced warnings');
+}
 
 echo "Done. Publish directory: dist/\n";

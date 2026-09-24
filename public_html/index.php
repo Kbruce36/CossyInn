@@ -152,24 +152,13 @@ require __DIR__ . '/includes/header.php';
         <span class="shead__eyebrow">Around us</span>
         <h2 class="shead__title">Worth the <em>short drive</em></h2>
         <p class="shead__sub">
-          Kiwenda sits within easy reach of some of central Uganda's best days out.
+          Ziplines, go-karts and a golf course, all closer to the gate than
+          Kampala is.
         </p>
       </div>
 
       <div class="grid grid--3">
-        <?php $i = 0; foreach (array_slice($ATTRACTIONS, 0, 3) as $a): $i++; ?>
-          <article class="card reveal" data-reveal-delay="<?= $i * 90 ?>">
-            <div class="card__media">
-              <?= picture($a['img'], $a['alt'],
-                    ['sizes' => '(min-width:1000px) 380px, (min-width:720px) 50vw, 100vw']) ?>
-              <span class="card__badge"><?= e($a['time']) ?></span>
-            </div>
-            <div class="card__body">
-              <h3 class="card__title"><?= e($a['name']) ?></h3>
-              <p class="card__text"><?= e($a['blurb']) ?></p>
-            </div>
-          </article>
-        <?php endforeach; ?>
+        <?php $i = 0; foreach (array_slice($ATTRACTIONS, 0, 3) as $a) echo attraction_card($a, ['heading' => 'h3', 'delay' => ++$i * 90, 'distance' => false]); ?>
       </div>
 
       <p class="center" style="margin-top:2.5rem">

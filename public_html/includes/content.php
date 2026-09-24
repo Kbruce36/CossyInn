@@ -158,9 +158,74 @@ $GALLERY_CATS = [
 // ---------------------------------------------------------------------------
 // ATTRACTIONS
 // ---------------------------------------------------------------------------
-// PLACEHOLDER distances. These are rough road estimates from Kiwenda and must
-// be checked before launch, guests plan their day around them.
+// Ordered by distance from the gate, nearest first. The homepage shows the
+// first three, so the closest places are the ones a guest sees first.
+//
+// PLACEHOLDER distances. Every 'dist' and 'time' below is a road estimate and
+// must be driven or checked on Google Maps before launch. Guests plan a day
+// around these numbers, and the near ones are the easiest to get wrong.
 $ATTRACTIONS = [
+    [
+        'name'  => 'Theron Leisure Park',
+        'img'   => 'stock/attraction-theron',
+        'alt'   => 'A tyre obstacle on the high ropes course at Theron Leisure Park, strung between eucalyptus trees',
+        'dist'  => 'approx. 2 km',
+        'time'  => '5 min drive',
+        'blurb' => 'Our nearest neighbour on the Gayaza-Zirobwe road. A dual 250 m '
+                 . 'zipline, a high ropes course, jungle paintball and a pool, all '
+                 . 'set in eucalyptus woodland. The easiest half day you can have '
+                 . 'from here.',
+    ],
+    [
+        'name'  => 'Bugema University',
+        'img'   => 'stock/attraction-bugema',
+        'alt'   => 'A red brick building with clipped hedges and mature palms on the Bugema University campus',
+        'dist'  => 'approx. 5 km',
+        'time'  => '10 min drive',
+        'blurb' => 'A Seventh-day Adventist university on 640 acres of lawns, brick '
+                 . 'chapels and mature palms, and the landmark most people in the '
+                 . 'area navigate by. The grounds are pleasant to walk.',
+    ],
+    [
+        'name'  => 'Extreme Adventure Park, Busiika',
+        'img'   => 'stock/attraction-extreme-park',
+        'alt'   => 'A go-kart on the racing circuit at Extreme Adventure Park in Busiika',
+        'dist'  => 'approx. 10 km',
+        'time'  => '20 min drive',
+        'blurb' => 'Built on the old Busiika motorsport arena, and home to the '
+                 . 'largest go-kart track in Africa. Also quad bikes, high ropes, '
+                 . 'a zipline, archery, paintball and target shooting.',
+    ],
+    [
+        'name'  => 'Namulonge Golf Club',
+        'img'   => 'stock/attraction-namulonge-golf',
+        'alt'   => 'Three golfers walking the fairway at the Mary Louise Simkins Memorial Golf Club, Namulonge',
+        'dist'  => 'approx. 12 km',
+        'time'  => '25 min drive',
+        'blurb' => 'The Mary Louise Simkins Memorial course, a 9-hole parkland '
+                 . 'layout dating to 1960, laid out on the grounds of the national '
+                 . 'crops research institute at Namulonge. Visitors are welcome.',
+    ],
+    [
+        'name'  => 'Ugasil Farm coffee tour',
+        'img'   => 'stock/attraction-coffee-tour',
+        'alt'   => 'Ripe red coffee cherries spread out to dry on a raised drying bed at a Ugandan farm',
+        'dist'  => 'approx. 15 km',
+        'time'  => '30 min drive',
+        'blurb' => 'Crop to cup on a working farm outside Gayaza. You walk the '
+                 . 'coffee garden, pick cherries in season, then dry, roast, grind '
+                 . 'and drink what you picked. Uganda is the home of wild robusta.',
+    ],
+    [
+        'name'  => 'The Great Outdoors, Kalanamu',
+        'img'   => 'stock/attraction-great-outdoors',
+        'alt'   => 'Evening sunlight through the trees over log benches in the forest at The Great Outdoors, Kalanamu',
+        'dist'  => 'approx. 18 km',
+        'time'  => '35 min drive',
+        'blurb' => 'An eco forest resort built for slowing down. Guided nature '
+                 . 'walks with a birding guide, cycling, swimming and a bonfire '
+                 . 'after dark. Day visitors are welcome for lunch and a walk.',
+    ],
     [
         'name'  => 'Namugongo Martyrs Shrine',
         'img'   => 'stock/attraction-namugongo',
@@ -172,55 +237,27 @@ $ATTRACTIONS = [
                  . 'each June. Its copper-clad conical roof echoes a traditional Kiganda hut.',
     ],
     [
+        'name'  => 'Bahá’í Temple, Kikaaya',
+        'img'   => 'stock/attraction-bahai-temple',
+        'alt'   => 'The green dome of the Bahá’í House of Worship on Kikaaya Hill, above its gardens',
+        'dist'  => 'approx. 22 km',
+        'time'  => '40 min drive',
+        'blurb' => 'The Mother Temple of Africa, and the only Bahá’í House of '
+                 . 'Worship on the continent. Nine sides, nine doors, a green dome '
+                 . 'on a hill, and 50 acres of gardens that are open to anyone.',
+    ],
+    [
         'name'  => 'Kampala City',
         'img'   => 'stock/attraction-kampala',
         'alt'   => 'The Kampala city skyline',
-        'dist'  => 'approx. 25 km',
-        'time'  => '1 hr drive',
+        'dist'  => 'approx. 28 km',
+        'time'  => '35 min drive',
         'blurb' => 'Uganda’s capital, with the Uganda Museum, the Gaddafi National '
                  . 'Mosque, the Kasubi Tombs and the sprawl of Owino Market. Close '
                  . 'enough for a day in town, far enough to sleep in quiet.',
     ],
-    [
-        'name'  => 'Ssezibwa Falls',
-        'img'   => 'stock/attraction-ssezibwa-falls',
-        'alt'   => 'Water dropping over the rocks at Ssezibwa Falls, surrounded by forest',
-        'dist'  => 'approx. 45 km',
-        'time'  => '1 hr 15 min drive',
-        'blurb' => 'A set of falls on the Ssezibwa river that is both a scenic picnic '
-                 . 'spot and an important cultural site for the Baganda. Short forest '
-                 . 'walks, birdlife and rock outcrops to climb.',
-    ],
-    [
-        'name'  => 'Entebbe Botanical Gardens',
-        'img'   => 'stock/attraction-entebbe-gardens',
-        'alt'   => 'Palms and lawns at the Entebbe Botanical Gardens on the shore of Lake Victoria',
-        'dist'  => 'approx. 60 km',
-        'time'  => '1 hr 45 min drive',
-        'blurb' => 'Lakeshore gardens laid out in 1898, full of mature palms, monkeys '
-                 . 'and birds, right beside Lake Victoria and a short hop from '
-                 . 'Entebbe International Airport.',
-    ],
-    [
-        'name'  => 'Lake Victoria',
-        'img'   => 'stock/attraction-lake-victoria',
-        'alt'   => 'The shoreline of Lake Victoria with boats and green vegetation',
-        'dist'  => 'approx. 55 km',
-        'time'  => '1 hr 30 min drive',
-        'blurb' => 'Africa’s largest lake, with boat trips to the Ssese Islands, '
-                 . 'fishing villages and some of the best sunsets in the country.',
-    ],
-    [
-        'name'  => 'Mabira Forest',
-        'img'   => 'stock/attraction-mabira',
-        'alt'   => 'A stream running through the dense canopy of Mabira Forest',
-        'dist'  => 'approx. 70 km',
-        'time'  => '1 hr 45 min drive',
-        'blurb' => 'One of Uganda’s largest surviving rainforests, with marked '
-                 . 'walking trails, a zip line through the canopy and over 300 '
-                 . 'recorded bird species.',
-    ],
 ];
+
 
 // ---------------------------------------------------------------------------
 // TESTIMONIALS  --  PLACEHOLDER, every one of these is invented
@@ -270,24 +307,41 @@ $FAQS = [
 // PHOTO CREDITS  (Creative Commons images require attribution, this is not optional)
 // ---------------------------------------------------------------------------
 $PHOTO_CREDITS = [
-    ['file' => 'attraction-ssezibwa-falls', 'title' => 'Ssezibwa Falls1.jpg',
-     'author' => 'Wikimedia Commons contributor', 'licence' => 'CC BY-SA 4.0',
-     'source' => 'https://commons.wikimedia.org/wiki/File:Ssezibwa_Falls1.jpg'],
+    // --- Creative Commons, from Wikimedia Commons ---------------------------
     ['file' => 'attraction-namugongo', 'title' => 'Namugongo Martyrs Shrine exterior view.jpg',
-     'author' => 'Wikimedia Commons contributor', 'licence' => 'CC BY 2.0',
+     'author' => 'Isabelle Prondzynski', 'licence' => 'CC BY 2.0',
      'source' => 'https://commons.wikimedia.org/wiki/File:Namugongo_Martyrs_Shrine_exterior_view.jpg'],
-    ['file' => 'attraction-lake-victoria', 'title' => 'Shores of Lake Victoria at Ssese Islands.jpg',
-     'author' => 'Wikimedia Commons contributor', 'licence' => 'CC BY-SA 4.0',
-     'source' => 'https://commons.wikimedia.org/wiki/File:Shores_of_Lake_Victoria_at_Ssese_Islands.jpg'],
     ['file' => 'attraction-kampala', 'title' => 'Kampala skyline.jpg',
-     'author' => 'Wikimedia Commons contributor', 'licence' => 'CC BY 2.0',
+     'author' => 'Todd Huffman', 'licence' => 'CC BY 2.0',
      'source' => 'https://commons.wikimedia.org/wiki/File:Kampala_skyline.jpg'],
-    ['file' => 'attraction-entebbe-gardens', 'title' => 'Entebbe Botanical Gardens 3.jpg',
-     'author' => 'Wikimedia Commons contributor', 'licence' => 'CC BY 2.0',
-     'source' => 'https://commons.wikimedia.org/wiki/File:Entebbe_Botanical_Gardens_3.jpg'],
-    ['file' => 'attraction-mabira', 'title' => 'A stagnant stream in Mabira Forest.jpg',
-     'author' => 'Wikimedia Commons contributor', 'licence' => 'CC BY-SA 4.0',
-     'source' => 'https://commons.wikimedia.org/wiki/File:A_stagnant_stream_in_Mabira_Forest.jpg'],
+    ['file' => 'attraction-bahai-temple', 'title' => '19 Bahai Temple Kampala Hilltop View 1.jpg',
+     'author' => 'Alvinategyeka', 'licence' => 'CC BY 4.0',
+     'source' => 'https://commons.wikimedia.org/wiki/File:19_Bahai_Temple_Kampala_Hilltop_View_1.jpg'],
+    ['file' => 'attraction-coffee-tour', 'title' => 'Women drying coffee.jpg',
+     'author' => 'PHILIP ASEDRI DRADRIO', 'licence' => 'CC BY-SA 4.0',
+     'source' => 'https://commons.wikimedia.org/wiki/File:Women_drying_coffee.jpg'],
+
+    // --- Each venue's own photograph, from its own website -------------------
+    // NOT openly licensed. Get written permission from each venue before
+    // launch, or replace these with photographs of your own. Most venues say
+    // yes straight away, a hotel sending them guests is free advertising.
+    ['file' => 'attraction-theron', 'title' => 'Theron Leisure Park, high ropes course',
+     'author' => 'Theron Leisure Park & Residences', 'licence' => 'Venue photograph',
+     'source' => 'https://theronleisurepark.com/'],
+    ['file' => 'attraction-extreme-park', 'title' => 'Extreme Adventure Park, go-karting',
+     'author' => 'Extreme Adventure Park Busika', 'licence' => 'Venue photograph',
+     'source' => 'https://www.extremeadventures.co.ug/product/go-karting/'],
+    ['file' => 'attraction-great-outdoors', 'title' => 'The Great Outdoors, forest clearing',
+     'author' => 'Great Outdoors Uganda, Kalanamu', 'licence' => 'Venue photograph',
+     'source' => 'https://greatoutdoorsuganda.com/'],
+    ['file' => 'attraction-bugema', 'title' => 'Bugema University, campus building',
+     'author' => 'Bugema University', 'licence' => 'Venue photograph',
+     'source' => 'https://bugemauniv.ac.ug/'],
+    ['file' => 'attraction-namulonge-golf', 'title' => 'Namulonge Golf Club, on the fairway',
+     'author' => 'Mary Louise Simkins Memorial Golf Club', 'licence' => 'Venue photograph',
+     'source' => 'https://longegolf.com/'],
+
+    // --- Food and drink ------------------------------------------------------
     ['file' => 'food & drink photography', 'title' => 'Various',
      'author' => 'Unsplash contributors', 'licence' => 'Unsplash Licence',
      'source' => 'https://unsplash.com'],
